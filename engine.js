@@ -4,6 +4,7 @@ const game = new Phaser.Game(1200, 630, Phaser.CANVAS, '', {
   update: update
 })
 
+
 function preload(){
   game.load.image('battleship','assets/b1.png')
   game.load.image('carrier','assets/B2.png')
@@ -14,91 +15,89 @@ function preload(){
   game.load.image('water','assets/water1.png')
 }
 
+var submarine;
+var destroyer;
+var carrier;
+var cruiser;
+var battleship;
+var cont;
+
 function create (){
+  cont = 0;
+  game.stage.backgroundColor = "#FFFFFF"
+
   dimensaoTile = 61;
   for(j=10; j<620; j+=dimensaoTile) {
     for (i = 295; i < 905; i += dimensaoTile) {
-      this.add.sprite(i, j, 'water')
+      water = this.add.sprite(i, j, 'water')
     }
   }
-  game.physics.startSystem(Phaser.Physics.ARCADE)
-  carrier  = this.add.sprite(390, 210, 'carrier');
-  cruiser = this.add.sprite(215, 400, 'cruiser')
-  battleship  = this.add.sprite(925, 10, 'battleship');
-  destroyer = this.add.sprite(980, 400, 'destroyer')
-  submarine = this.add.sprite(1020, 630, 'submarine')
+  game.physics.startSystem(Phaser.Physics.ARCADE);
 
-  carrier.inputEnabled = true
-  carrier.input.enableDrag(true);
+  //  Set the world (global) gravity
+  game.physics.arcade.gravity.y = 0;
 
-
-  cruiser.inputEnabled = true
-  cruiser.input.enableDrag(true);
-  cruiser.x = aproximacaoX(2, cruiser)
-  cruiser.y = aproximacaoY(2, cruiser)
-
-  battleship.inputEnabled = true
-  battleship.input.enableDrag(true);
-  battleship.x = aproximacaoX(3, battleship)
-  battleship.y = aproximacaoY(3, battleship)
-
-  destroyer.inputEnabled = true
-  destroyer.input.enableDrag(true);
-  destroyer.x = aproximacaoX(4, destroyer)
-  destroyer.y = aproximacaoY(4, destroyer)
-
-  submarine.inputEnabled = true
-  submarine.input.enableDrag(true);
-  submarine.x = aproximacaoX(5, submarine)
-  submarine.y = aproximacaoY(5, submarine)
+  game.physics.arcade.enable([submarine, cruiser, destroyer, battleship, carrier]);
 
 }
 
-function update(){
-  //carrier
-  if(!carrier.events.isDragged){
-    carrier.x = aproximacaoX(1, carrier)
-  }
-  if(!carrier.events.isDragged){
-    carrier.y = aproximacaoY(1, carrier)
-  }
-  //cruiser
-  if(!cruiser.events.isDragged){
-    cruiser.x = aproximacaoX(2, cruiser)
-  }
-  if(!cruiser.events.isDragged){
-    cruiser.y = aproximacaoY(2, cruiser)
-  }
-  //battleship
-  if(!battleship.events.isDragged){
-    battleship.x = aproximacaoX(3, battleship)
-  }
-  if(!battleship.events.isDragged){
-    battleship.y = aproximacaoY(3, battleship)
-  }
-  //destroyer
-  if(!destroyer.events.isDragged){
-    destroyer.x = aproximacaoX(4, destroyer)
-  }
-  if(!destroyer.events.isDragged){
-    destroyer.y = aproximacaoY(4, destroyer)
-  }
-  //submarine
-  if(!submarine.events.isDragged){
-    submarine.x = aproximacaoX(5, submarine)
-  }
-  if(!submarine.events.isDragged){
-    submarine.y = aproximacaoY(5, submarine)
-  }
-}
+function update() {
 
-function listener(param1){
-  param1.events.onInputOut.add(set(param1))
-}
+  if(cont==1) {
+    //submarine
+    if (!submarine.events.isDragged) {
+      submarine.x = aproximacaoX(5, submarine)
+    }
+    if (!submarine.events.isDragged) {
+      submarine.y = aproximacaoY(5, submarine)
+    }
+  }
+  if(cont==2) {
+    submarine.input.disableDrag()
+    //destroyer
+    if (!destroyer.events.isDragged) {
+      destroyer.x = aproximacaoX(4, destroyer)
+      colisao({sprite1: submarine, sprite2: destroyer})
+    }
+    if (!destroyer.events.isDragged) {
+      destroyer.y = aproximacaoY(4, destroyer)
+    }
+  }
+  if(cont==3) {
+    destroyer.input.disableDrag()
+    //cruiser
+    if (!cruiser.events.isDragged) {
+      cruiser.x = aproximacaoX(2, cruiser)
+    }
+    if (!cruiser.events.isDragged) {
+      cruiser.y = aproximacaoY(2, cruiser)
 
-function set(param1){
-  param1.x = game.input.mousePointer.x
-  param1.y = game.input.mousePointer.y
+    }
+
+  }
+  if (cont==4){
+    cruiser.input.disableDrag()
+    //carrier
+    if (!carrier.events.isDragged) {
+      carrier.x = aproximacaoX(1, carrier)
+    }
+    if (!carrier.events.isDragged) {
+      carrier.y = aproximacaoY(1, carrier)
+    }
+  }
+  if(cont==5) {
+    //battleship
+    carrier.input.disableDrag()
+    if (!battleship.events.isDragged) {
+      battleship.x = aproximacaoX(3, battleship)
+    }
+    if (!battleship.events.isDragged) {
+      battleship.y = aproximacaoY(3, battleship)
+    }
+  }
+  if(cont == 6){
+    battleship.input.disableDrag()
+  }
 }
 
 function aproximacaoY(param1, param2){
@@ -246,4 +245,93 @@ function aproximacaoX(param1, param2){
       return 319;
     }
   }
+}
+
+function rotacionar(param1) {
+  if(param1.angle == 0){
+    return 90;
+  }
+  else{
+    return 0;
+  }
+}
+
+function iniciar() {
+}
+
+function reiniciar() {
+
+}
+
+function ranking() {
+
+}
+
+function carregarBarco() {
+  switch (cont) {
+    case 0:
+      submarine = game.add.sprite(650, 450, 'submarine')
+      submarine.x = aproximacaoX(5, submarine)
+      submarine.y = aproximacaoY(5, submarine)
+      submarine.inputEnabled = true;
+      submarine.input.enableDrag();
+      cont = 1
+      break
+    case 1:
+      destroyer = game.add.sprite(700, 400, 'destroyer')
+      destroyer.x = aproximacaoX(4, destroyer)
+      destroyer.y = aproximacaoY(4, destroyer)
+      destroyer.inputEnabled = true;
+      destroyer.input.enableDrag();
+      cont = 2
+      break
+    case 2:
+      cruiser = game.add.sprite(750, 400, 'cruiser')
+      cruiser.x = aproximacaoX(2, cruiser)
+      cruiser.y = aproximacaoY(2, cruiser)
+      cruiser.inputEnabled = true;
+      cruiser.input.enableDrag();
+
+      cont = 3
+      break
+    case 3:
+      carrier  = game.add.sprite(810, 400, 'carrier');
+      carrier.x = aproximacaoX(1, carrier)
+      carrier.y = aproximacaoY(1, carrier)
+      carrier.inputEnabled = true;
+      carrier.input.enableDrag();
+      cont = 4
+      break
+    case 4:
+      battleship  = game.add.sprite(850, 400, 'battleship');
+      battleship.x = aproximacaoX(3, battleship)
+      battleship.y = aproximacaoY(3, battleship)
+      battleship.inputEnabled = true;
+      battleship.input.enableDrag();
+      cont = 5
+      break
+    case 5:
+      cont = 6
+      break
+  }
+}
+
+function startDrag(sprite) {
+
+  if(sprite != null){
+    submarine.body.moves = true;
+  }
+
+}
+
+function stopDrag(sprite) {
+
+  if(sprite != null){
+    submarine.body.moves = false;
+  }
+
+}
+
+function colisao(sprite1, sprite2) {
+
 }

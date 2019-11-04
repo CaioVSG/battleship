@@ -5,15 +5,38 @@
     <title>Batalha</title>
     <style type="text/css">
       #posicionar{position:absolute; top:10%; left:5%;}
-
     </style>
+    <style type="text/css">
+      #posicionar1{position:absolute; top:30%; left:5%;}
+    </style>
+    <style type="text/css">
+      #posicionar2{position:absolute; top:50%; left:5%;}
+    </style>
+    <style type="text/css">
+      #posicionar3{position:absolute; top:10%; left:74%;}
+    </style>
+    <style type="text/css">
+      #posicionar4{position:absolute; top:30%; left:74%;}
+    </style>
+      <link rel="stylesheet" type="text/css" href="batalhaNaval.css">
   </head>
   <script type="text/javascript" src = "phaser.min.js"></script>
   <body>
   <script type="text/javascript" src= "engine.js"></script>
     <div id="posicionar">
-      <button type="button">Start game</button>
-      <a href="#" class="myButton">Novo Jogo</a>
+      <button class="myButton" onclick="iniciar()">Novo Jogo</button>
+    </div>
+    <div id="posicionar1">
+      <button class="myButton" onclick="reiniciar()">Recomeçar</button>
+    </div>
+    <div id="posicionar2">
+      <button class="myButton" onclick="ranking()">Ranking</button>
+    </div>
+    <div id="posicionar3">
+      <button class="myButton" onclick="carregarBarco()">Carregar Barco</button>
+    </div>
+    <div id="posicionar4">
+      <button class="myButton" onclick="rotacionar()">Rotacionar</button>
     </div>
   </body>
 </html>

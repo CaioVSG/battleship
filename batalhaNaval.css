@@ -19,3 +19,112 @@
     position:relative;
     top:1px;
 }
+ .clearfix:after {
+     content: ".";
+     display:block;
+     height:0;
+     font-size:0;
+     clear:both;
+     visibility:hidden;
+ }
+.clearfix {
+    display:inline-block;
+}
+* html .clearfix {
+    height:1%;
+}
+.clearfix {
+    display:block;
+}
+.Blue_panel_with_menu {
+    margin:0 0 4px 0;
+    padding:0;
+    display:block;
+    position:relative;
+    width:200px;
+}
+.Blue_panel_with_menu h2 {
+    background:url(images/blue_panle_w_m_panel_box_h_tr.gif) no-repeat left top;
+    margin:0;
+    padding:0 0 0 30px;
+    font-size:14px;
+    color:#ffffff;
+    font-weight:normal;
+}
+.Blue_panel_with_menu h2 span {
+    background:url(images/blue_panle_w_m_panel_box_h_tr.gif) no-repeat right top;
+    display:block;
+    padding:8px 0 8px 0px;
+}
+.Blue_panel_with_menu h2:after {
+    content: ";quot;.";
+display:block;
+    height:0;
+    clear:both;
+    visibility:hidden;
+}
+.Blue_panel_with_menu h2 {
+    display:inline-block;
+}
+.Blue_panel_with_menu h2 {
+    height:1%;
+}
+.Blue_panel_with_menu h2 {
+    display:block;
+}
+.Blue_panel_with_menu .panel_blue_container {
+    border:solid 1px #adadad;
+    border-width:0 1px 1px 1px;
+    padding:2px 0 0px 0;
+}
+.Blue_panel_with_menu .bl {
+    position:absolute;
+    display:block;
+    width:3px;
+    height:3px;
+    background:url(images/blue_panle_w_m_panel_box_bl.gif) no-repeat left top;
+    left:0;
+    bottom:0px;
+    _bottom:-1px;
+    font-size:0px;
+}
+.Blue_panel_with_menu .br {
+    position:absolute;
+    display:block;
+    width:3px;
+    height:3px;
+    background:url(images/blue_panle_w_m_panel_box_br.gif) no-repeat right top;
+    right:0;
+    bottom:0px;
+    _bottom:-1px;
+    font-size:0px;
+    line-height:0
+}
+.Blue_panel_with_menu .left_navigation {
+    margin:0;
+    padding:0 5px 20px 5px;
+    list-style:none;
+}
+.Blue_panel_with_menu .left_navigation li {
+    padding:8px 0;
+    background:url(images/blue_panle_w_m_left_menu_bdr_b.gif) repeat-x bottom;
+}
+.Blue_panel_with_menu .left_navigation li a {
+    background:url(images/blue_panle_w_m_left_menu_arrow.gif) no-repeat 10px 4px;
+    padding:0 0 0 25px;
+    text-decoration:none;
+    color:#464646;
+    display:block;
+    font-size:14px;
+}
+.Blue_panel_with_menu .left_navigation li a:hover {
+    text-decoration:underline;
+    color:#000;
+    background-image:url(images/blue_panle_w_m_left_menu_arrow_h.gif)
+}
+.Blue_panel_with_menu .left_navigation li a.active {
+    text-decoration:none;
+    color:#000;
+    background-image:url(images/blue_panle_w_m_left_menu_arrow_h.gif);
+    font-weight:bold;
+}
