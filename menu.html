@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Menu</title>
+		<style>
+			body{
+				background-image: url(img/telamenu2.png);
+				background-attachment:fixed;
+				background-size: 1200px 600px;
+				background-repeat: no-repeat;
+				background-position: 100px 12px;
+				background-color: #000;
+			}
+		</style>
+		<style type ="text/css">
+			#centralizar{position:absolute; top:35%; left:45%;}
+		</style>
+		<style type = "text/css">
+			#ranking{position:absolute; top:45%; left:47.8%;}
+		</style>
+		<style type = "text/css">
+			#alinhado{position:absolute; top:40%; left:47.2%;}
+		</style>
+	</head>
+	<body>
+		<div id="centralizar">
+			<button type="button">Iniciar um novo jogo</button>
+		</div>
+		<div id="ranking">
+			<button type="button">Ranking</button>
+		</div>
+		<div id="alinhado">
+			<button type="button">Se informe</button>
+		</div>
+		<script>
+			function main(){
+				document.addEventListener("mousedown", clicando);
+			}
+			function clicando(){
+				ctx.fillStyle = "#50beff";
+				ctx.fillRect(0, 0, 800, 600);	
+			}
+			main();
+		</script>
+	</body>
+<html>
