@@ -21,14 +21,21 @@ var carrier;
 var cruiser;
 var battleship;
 var cont;
-
+var matriz;
+matriz = new Array()
+for (i=0; i<10; i++) {
+  matriz[i] = new Array()
+  for (j = 0; j < 10; j++) {
+    matriz[i][j] = 0
+  }
+}
 function create (){
   cont = 0;
   game.stage.backgroundColor = "#FFFFFF"
 
   dimensaoTile = 61;
-  for(j=10; j<620; j+=dimensaoTile) {
-    for (i = 295; i < 905; i += dimensaoTile) {
+  for(j=10; j<620; j+=dimensaoTile) { //altura
+    for (i = 295; i < 905; i += dimensaoTile) { //largura
       water = this.add.sprite(i, j, 'water')
     }
   }
@@ -41,9 +48,9 @@ function create (){
 
 }
 
-function update() {
 
-  if(cont==1) {
+function update() {
+  if(cont==1) { //submarine tamanho 1
     //submarine
     if (!submarine.events.isDragged) {
       submarine.x = aproximacaoX(5, submarine)
@@ -52,51 +59,213 @@ function update() {
       submarine.y = aproximacaoY(5, submarine)
     }
   }
-  if(cont==2) {
+  if(cont==2) { //destroyer tamanho 3
     submarine.input.disableDrag()
+    x = Math.round((submarine.x -24 - 295)/61) //coordenada x do submarino
+    y = Math.round((submarine.y - 3 - 10)/61) //coordenada y do submarino
+    matriz[x][y] = 1  //representação de alocação de espaço da matriz
     //destroyer
     if (!destroyer.events.isDragged) {
       destroyer.x = aproximacaoX(4, destroyer)
-      colisao({sprite1: submarine, sprite2: destroyer})
+      xM = Math.round((destroyer.x - 15 - 295)/61)
+      y1 = Math.round((destroyer.y - 25 - 10)/61)
+      y2 = Math.round((destroyer.y - 25 + 51)/61)
+      y3 = Math.round((destroyer.y - 25 + 112)/61)
+      p1 = matriz[xM][y1]
+      p2 = matriz[xM][y2]
+      p3 = matriz[xM][y3]
+      if(p1 === 1 || p2 === 1 || p3 === 1){
+        if(xM >= 0 && xM< 9){
+          destroyer.x += 61
+        }
+        if(xM==9){
+          destroyer.x -= 61
+        }
+      }
     }
     if (!destroyer.events.isDragged) {
       destroyer.y = aproximacaoY(4, destroyer)
+      xM = Math.round((destroyer.x - 15 - 295)/61)
+      y1 = Math.round((destroyer.y - 25 - 10)/61)
+      y2 = Math.round((destroyer.y - 25 + 51)/61)
+      y3 = Math.round((destroyer.y - 25 + 112)/61)
+      p1 = matriz[xM][y1]
+      p2 = matriz[xM][y2]
+      p3 = matriz[xM][y3]
+      if(p1 === 1 || p2 === 1 || p3 === 1){
+        if(y1 >= 0 && y1< 7){
+          destroyer.y += 61
+        }
+        if(y1 > 7){
+          destroyer.y -= 61
+        }
+      }
     }
   }
-  if(cont==3) {
+  if(cont==3) { //cruiser tamanho 3
     destroyer.input.disableDrag()
+    x = Math.round((destroyer.x - 15 - 295)/61) //coordenada de início x do destroyer
+    y = Math.round((destroyer.y - 25 - 10)/61) //coordenada de início y do destroyer
+    matriz[x][y] = 1//representação de alocação de espaço da matriz
+    matriz[x][y+1] = 1
+    matriz[x][y+2] = 1
     //cruiser
     if (!cruiser.events.isDragged) {
       cruiser.x = aproximacaoX(2, cruiser)
+      xM = Math.round((cruiser.x - 15 - 295)/61)
+      y1 = Math.round((cruiser.y - 11 - 10)/61)
+      y2 = Math.round((cruiser.y - 11 + 51)/61)
+      y3 = Math.round((cruiser.y - 11 + 112)/61)
+      p1 = matriz[xM][y1]
+      p2 = matriz[xM][y2]
+      p3 = matriz[xM][y3]
+      if(p1 === 1 || p2 === 1 || p3 === 1){
+        if(xM >= 0 && xM< 9){
+          cruiser.x += 61
+        }
+        if(xM==9){
+          cruiser.x -= 61
+        }
+      }
     }
     if (!cruiser.events.isDragged) {
       cruiser.y = aproximacaoY(2, cruiser)
-
+      cruiser.x = aproximacaoX(2, cruiser)
+      xM = Math.round((cruiser.x - 15 - 295)/61)
+      y1 = Math.round((cruiser.y - 11 - 10)/61)
+      y2 = Math.round((cruiser.y - 11 + 51)/61)
+      y3 = Math.round((cruiser.y - 11 + 112)/61)
+      p1 = matriz[xM][y1]
+      p2 = matriz[xM][y2]
+      p3 = matriz[xM][y3]
+      if(p1 === 1 || p2 === 1 || p3 === 1){
+        if(y1 >= 0 && y1< 7){
+          cruiser.y += 61
+        }
+        if(y1>=7){
+          cruiser.y -= 61
+        }
+      }
     }
 
   }
-  if (cont==4){
+  if (cont==4){//carrier tamanho 4
     cruiser.input.disableDrag()
+    x = Math.round((cruiser.x - 15 - 295)/61) //coordenada de início x do destroyer
+    y = Math.round((cruiser.y - 11 - 10)/61) //coordenada de início y do destroyer
+    matriz[x][y] = 1//representação de alocação de espaço da matriz
+    matriz[x][y+1] = 1
+    matriz[x][y+2] = 1
     //carrier
     if (!carrier.events.isDragged) {
       carrier.x = aproximacaoX(1, carrier)
+      xM = Math.round((carrier.x - 5- 295)/61)
+      y1 = Math.round((carrier.y - 7 - 10)/61)
+      y2 = Math.round((carrier.y - 7 + 51)/61)
+      y3 = Math.round((carrier.y - 7 + 112)/61)
+      y4 = Math.round((carrier.y - 7 + 173)/61)
+      p1 = matriz[xM][y1]
+      p2 = matriz[xM][y2]
+      p3 = matriz[xM][y3]
+      p4 = matriz[xM][y4]
+      if(p1 === 1 || p2 === 1 || p3 === 1 || p4 === 1){
+        if(xM >= 0 && xM< 9){
+          carrier.x += 61
+        }
+        if(xM==9){
+          carrier.x -= 61
+        }
+      }
     }
     if (!carrier.events.isDragged) {
       carrier.y = aproximacaoY(1, carrier)
+      xM = Math.round((carrier.x - 5 - 295)/61)
+      y1 = Math.round((carrier.y - 7 - 10)/61)
+      y2 = Math.round((carrier.y - 7 + 51)/61)
+      y3 = Math.round((carrier.y - 7 + 112)/61)
+      y4 = Math.round((carrier.y - 7 + 173)/61)
+      p1 = matriz[xM][y1]
+      p2 = matriz[xM][y2]
+      p3 = matriz[xM][y3]
+      p4 = matriz[xM][y4]
+      if(p1 === 1 || p2 === 1 || p3 === 1 || p4 === 1){
+        if(y1 >= 0 && y1< 6){
+          carrier.y += 61
+        }
+        if(y1>=6){
+          carrier.y -= 61
+        }
+      }
     }
   }
-  if(cont==5) {
+  if(cont==5) { //battleship tamanho 6
     //battleship
     carrier.input.disableDrag()
+    x = Math.round((carrier.x - 5 - 295)/61) //coordenada de início x do destroyer
+    y = Math.round((carrier.y - 7 - 10)/61) //coordenada de início y do destroyer
+    matriz[x][y] = 1//representação de alocação de espaço da matriz
+    matriz[x][y+1] = 1
+    matriz[x][y+2] = 1
+    matriz[x][y+3] = 1
     if (!battleship.events.isDragged) {
       battleship.x = aproximacaoX(3, battleship)
+      xM = Math.round((battleship.x - 5 - 295)/61)
+      y1 = Math.round((battleship.y - 18 - 10)/61)
+      y2 = Math.round((battleship.y - 18 + 51)/61)
+      y3 = Math.round((battleship.y - 18 + 112)/61)
+      y4 = Math.round((battleship.y - 18 + 173)/61)
+      y5 = Math.round((battleship.y - 18 + 234)/61)
+      y6 = Math.round((battleship.y - 18 + 295)/61)
+      p1 = matriz[xM][y1]
+      p2 = matriz[xM][y2]
+      p3 = matriz[xM][y3]
+      p4 = matriz[xM][y4]
+      p5 = matriz[xM][y5]
+      p6 = matriz[xM][y6]
+      if(p1 === 1 || p2 === 1 || p3 === 1 || p4 === 1 || p5 === 1 || p6 === 1){
+        if(xM >= 0 && xM< 9){
+          battleship.x += 61
+        }
+        if(xM==9){
+          battleship.x -= 61
+        }
+      }
     }
     if (!battleship.events.isDragged) {
       battleship.y = aproximacaoY(3, battleship)
+      xM = Math.round((battleship.x - 5 - 295)/61)
+      y1 = Math.round((battleship.y - 18 - 10)/61)
+      y2 = Math.round((battleship.y - 18 + 51)/61)
+      y3 = Math.round((battleship.y - 18 + 112)/61)
+      y4 = Math.round((battleship.y - 18 + 173)/61)
+      y5 = Math.round((battleship.y - 18 + 234)/61)
+      y6 = Math.round((battleship.y - 18 + 295)/61)
+      p1 = matriz[xM][y1]
+      p2 = matriz[xM][y2]
+      p3 = matriz[xM][y3]
+      p4 = matriz[xM][y4]
+      p5 = matriz[xM][y5]
+      p6 = matriz[xM][y6]
+      if(p1 === 1 || p2 === 1 || p3 === 1 || p4 === 1 || p5 === 1 || p6 === 1){
+        if(y1 >= 0 && y1< 4){
+          battleship.y += 61
+        }
+        if(y1>=4){
+            battleship.y -= 61
+        }
+      }
     }
   }
   if(cont == 6){
     battleship.input.disableDrag()
+    x = Math.round((battleship.x - 5 - 295)/61) //coordenada de início x do destroyer
+    y = Math.round((battleship.y - 18 - 10)/61) //coordenada de início y do destroyer
+    matriz[x][y] = 1//representação de alocação de espaço da matriz
+    matriz[x][y+1] = 1
+    matriz[x][y+2] = 1
+    matriz[x][y+3] = 1
+    matriz[x][y+4] = 1
+    matriz[x][y+5] = 1
   }
 }
 
@@ -314,24 +483,4 @@ function carregarBarco() {
       cont = 6
       break
   }
-}
-
-function startDrag(sprite) {
-
-  if(sprite != null){
-    submarine.body.moves = true;
-  }
-
-}
-
-function stopDrag(sprite) {
-
-  if(sprite != null){
-    submarine.body.moves = false;
-  }
-
-}
-
-function colisao(sprite1, sprite2) {
-
 }
